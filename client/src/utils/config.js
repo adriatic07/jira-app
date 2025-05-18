@@ -1,12 +1,19 @@
 export const config = [
   {
     ACT: "act-156",
-    Leads: ["kavya", "raja", "hari", "kaushlendra", "aniket"],
+    Leads: ["kavya", "raja", "hari", "kaushlendra", "jaina290@gmail.com"],
     Query: `assignee in ("aniket.jain@one.verizon.com","adika.vishal.sai.rakshith@one.verizon.com") AND issuetype in ("bug","sub-task") AND updated >= -7d`,
   },
   {
     ACT: "act-20",
-    Leads: ["kavya", "raja", "hari", "abhishek", "anurag", "aniket"],
+    Leads: [
+      "kavya",
+      "raja",
+      "hari",
+      "abhishek",
+      "anurag",
+      "jaina290@gmail.com",
+    ],
     Query: `assignee in ("anurag.sundriyal@one.verizon.com","nayana.kolur.balaraju@one.verizon.com") AND issuetype in ("bug","sub-task") AND updated >= -7d`,
   },
   {

@@ -7,10 +7,16 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/jira-login", async (req, res) => {
-  const { email, token } = req.body;
+  const { email, token, authType } = req.body;
 
-  if (!email || !token) {
-    return res.status(400).json({ error: "Missing required fields" });
+  if (authType == "Basic Auth") {
+    if (!email || !token) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+  } else {
+    if (!token) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
   }
 
   const auth = Buffer.from(`${email}:${token}`).toString("base64");
@@ -20,7 +26,8 @@ app.post("/jira-login", async (req, res) => {
       `https://jaina290.atlassian.net/rest/api/3/myself`,
       {
         headers: {
-          Authorization: `Basic ${auth}`,
+          Authorization:
+            authType === "Bearer Token" ? `Bearer ${token}` : `Basic ${auth}`,
           Accept: "application/json",
         },
       }
@@ -37,23 +44,21 @@ app.post("/jira-login", async (req, res) => {
 });
 
 app.post("/fetchItems", async (req, res) => {
-  const { token, query } = req.body;
+  const { loggedInUser, token } = req.body;
   if (!token) {
     return res.status(400).json({ error: "Token not provided" });
   }
-  const baseURL = "https://onejira.verizon.com/rest/api/2/search";
-  const jql = query;
+  const baseURL = "https://jaina290.atlassian.net/rest/api/3/search";
+  const auth = Buffer.from(`${loggedInUser}:${token}`).toString("base64");
+  const jql = `assignee in ("Aniket Jain")`;
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
+    Authorization: `Basic ${auth}`,
   };
   try {
-    const response = await axios.get(
-      `${baseURL}?jql=${encodeURIComponent(jql)}`,
-      {
-        headers,
-      }
-    );
+    const response = await axios.get(`${baseURL}?jql=${jql}`, {
+      headers,
+    });
     res.json(response.data);
   } catch {
     console.error(

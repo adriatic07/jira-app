@@ -18,10 +18,10 @@ const Landing = () => {
     userDetails && (
       <div>
         <div>
-          <h1>Welocme, {userDetails.displayName}</h1>
+          <h1>Welcome, {userDetails.displayName}</h1>
         </div>
         <div>
-          <ActDropdown />
+          <ActDropdown loggedInUser={userDetails.emailAddress} />
         </div>
       </div>
     )

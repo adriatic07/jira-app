@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { loggedInUser, userToken } from "../utils/userSlice";
 
 const JiraLogin = () => {
-  const [email, setEmail] = useState("jaina290@gmail.com");
+  const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
   const [authType, setAuthType] = useState("Basic Auth");
   const [userInfo, setUserInfo] = useState(null);
